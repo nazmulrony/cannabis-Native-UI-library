@@ -58,11 +58,14 @@ const Categories = () => {
                     <Pressable
                         onPress={() => handlePress(d)}
                         key={index}
-                        style={
-                            index === data.length - 1
-                                ? { ...styles.categoryCard, marginRight: 0 }
-                                : styles.categoryCard
-                        }
+                        style={({ pressed }) => {
+                            // const baseStyle = {};
+                            const pressedStyle = { opacity: 0.7 };
+                            return [
+                                styles.categoryCard,
+                                pressed && pressedStyle,
+                            ];
+                        }}
                     >
                         <Image style={styles.categoryImage} source={d.image} />
                         <Text>{d.name}</Text>

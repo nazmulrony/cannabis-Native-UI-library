@@ -13,6 +13,7 @@ import { useSelector } from "react-redux";
 import { inventorySelector } from "../../redux/slices/inventory.slice";
 import { GlobalStyles } from "../../constants/style";
 import { useNavigation } from "@react-navigation/native";
+import { Button } from "react-native-paper";
 
 const ProductsTable = () => {
     const { inventoryProduct } = useSelector(inventorySelector);
@@ -137,11 +138,13 @@ const ProductsTable = () => {
                     ))}
                 </View>
             </View>
-            <Pressable onPress={handleShowMore} style={styles.btn}>
-                <Text style={styles.btnText}>
-                    {toggle ? "View less" : "View more"}
-                </Text>
-            </Pressable>
+            <Button
+                mode="contained"
+                style={{ borderRadius: 8 }}
+                onPress={handleShowMore}
+            >
+                {toggle ? "View less" : "View more"}
+            </Button>
         </View>
     );
 };

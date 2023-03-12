@@ -17,16 +17,24 @@ import TextButton from "../ui/TextButton";
 import { useLoginMutation } from "../ApiServices/auth.services";
 import { useDispatch, useSelector } from "react-redux";
 import { addUser, authSelector } from "../redux/slices/auth.slice";
+import {
+    Button,
+    Dialog,
+    Portal,
+    TextInput,
+    TouchableRipple,
+} from "react-native-paper";
+import { AntDesign } from "@expo/vector-icons";
 
 const SignInScreen = ({ navigation }) => {
     const [inputs, setInputs] = useState({ email: null, password: null });
-    const [focused, setFocused] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
 
     //redux hooks
     const dispatch = useDispatch();
     const [loginUser, { data, isLoading }] = useLoginMutation();
     const { user } = useSelector(authSelector);
-
+    const [showAlert, setShowAlert] = useState(false);
     const inputChangeHandler = (identifier, enteredText) => {
         setInputs((curInputs) => {
             return {
@@ -43,7 +51,9 @@ const SignInScreen = ({ navigation }) => {
         };
         let user = await loginUser(userInfo);
         if (user.error) {
-            Alert.alert("Incorrect user credentials!");
+            // Alert.alert("Incorrect user credentials!");
+            setShowAlert(true);
+
             return;
         }
         //console.log(user);
@@ -57,7 +67,11 @@ const SignInScreen = ({ navigation }) => {
     }, [user]);
 
     return (
-        <ScrollView style={styles.screen} showsVerticalScrollIndicator={false}>
+        <ScrollView
+            style={styles.screen}
+            showsVerticalScrollIndicator={false}
+            keyboardShouldPersistTaps="handled"
+        >
             <View style={styles.imageContainer}>
                 <Image
                     source={require("../assets/images/logo.png")}
@@ -73,28 +87,65 @@ const SignInScreen = ({ navigation }) => {
                 // behavior="padding"
                 style={styles.inputContainer}
             >
-                <Input
+                <TextInput
+                    style={{ fontSize: 14, backgroundColor: "white" }}
+                    mode="outlined"
                     label="Email"
-                    inputConfig={{
-                        placeholder: "Enter your email",
-                        onChangeText: inputChangeHandler.bind(this, "email"),
-                    }}
+                    placeholder="Enter your email"
+                    onChangeText={inputChangeHandler.bind(this, "email")}
+                    // activeOutlineColor="red"
+                    focu
                 />
-                <Input
-                    label="Password"
-                    inputConfig={{
-                        placeholder: "Enter your password",
-                        secureTextEntry: true,
-                        onChangeText: inputChangeHandler.bind(this, "password"),
+                <TextInput
+                    style={{
+                        fontSize: 14,
+                        marginVertical: 16,
+                        backgroundColor: "white",
                     }}
+                    mode="outlined"
+                    label="Password"
+                    placeholder="Enter your password"
+                    right={
+                        <TextInput.Icon
+                            icon={showPassword ? "eye" : "eye-off"}
+                            onPress={() => setShowPassword(!showPassword)}
+                        />
+                    }
+                    onChangeText={inputChangeHandler.bind(this, "password")}
+                    secureTextEntry={!showPassword}
                 />
             </KeyboardAvoidingView>
-            <PrimaryButton
+            {/*this portion of code is for alert purpose */}
+            <Portal>
+                <Dialog
+                    style={{ borderRadius: 8, backgroundColor: "white" }}
+                    visible={showAlert}
+                    onDismiss={() => setShowAlert(false)}
+                >
+                    <Dialog.Title style={{ fontSize: 18, marginBottom: 4 }}>
+                        Incorrect user credentials!
+                    </Dialog.Title>
+                    <Dialog.Content>
+                        <Text>
+                            Please try again with correct user credentials.
+                        </Text>
+                    </Dialog.Content>
+                    <Dialog.Actions>
+                        <Button onPress={() => setShowAlert(false)}>Ok</Button>
+                    </Dialog.Actions>
+                </Dialog>
+            </Portal>
+
+            <Button
+                rippleColor="white"
+                style={{ borderRadius: 8, marginTop: 12 }}
+                mode="contained"
+                loading={isLoading}
                 onPress={signInHandler}
-                style={{ marginVertical: 16 }}
             >
-                {isLoading ? "Signing in" : "Sign In"}
-            </PrimaryButton>
+                Sign In
+            </Button>
+
             <View style={styles.signUpTextContainer}>
                 <Text style={{ color: GlobalStyles.colors.gray300 }}>
                     Don't have an account?{" "}

@@ -2,6 +2,7 @@ import { View, Text, StyleSheet, Pressable } from "react-native";
 import React, { useState } from "react";
 import Colors from "../../constants/Colors";
 import { Entypo } from "@expo/vector-icons";
+import { Button } from "react-native-paper";
 
 const AddProduct = () => {
     const formats = ["lb", "g"];
@@ -39,10 +40,14 @@ const AddProduct = () => {
                         </Pressable>
                     ))}
                 </View>
-                <Pressable style={styles.btn}>
-                    <Entypo name="plus" size={18} color="white" />
-                    <Text style={styles.btnText}>Add New</Text>
-                </Pressable>
+                <Button
+                    mode="contained"
+                    style={{ borderRadius: 8 }}
+                    onPress={() => {}}
+                    icon="plus"
+                >
+                    Add New
+                </Button>
             </View>
         </View>
     );

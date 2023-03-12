@@ -6,6 +6,7 @@ import {
     ScrollView,
     FlatList,
     Image,
+    Dimensions,
 } from "react-native";
 import React, { useEffect, useLayoutEffect, useState } from "react";
 import { Entypo, Ionicons } from "@expo/vector-icons";
@@ -21,6 +22,9 @@ import SortAndFilterModal from "../../components/Categories/SortAndFilterModal";
 import { useSelector } from "react-redux";
 import { marketplaceSelector } from "../../redux/slices/marketplace.slice";
 import { useGetSearchProductsQuery } from "../../ApiServices/marketplace.service";
+import { ActivityIndicator } from "react-native-paper";
+import Skeleton from "../../ui/Skeleton";
+import CardSkeleton from "../../ui/CardSkeleton";
 
 const CategoriesScreen = ({ route, navigation }) => {
     const category = route.params.category;
@@ -283,15 +287,24 @@ const CategoriesScreen = ({ route, navigation }) => {
 
             <View style={{ flex: 1, marginHorizontal: 20 }}>
                 {isLoading ? (
-                    <View
-                        style={{
-                            flex: 1,
-                            justifyContent: "center",
-                            alignItems: "center",
-                        }}
-                    >
-                        <Text>Loading...</Text>
-                    </View>
+                    <FlatList
+                        data={[1, 2, 3, 4, 5, 6]}
+                        renderItem={({ item, index }) => (
+                            <CardSkeleton
+                                key={index}
+                                height={280}
+                                width={Dimensions.get("window").width / 2 - 30}
+                                // width={250}
+                                style={{
+                                    borderRadius: 8,
+                                    marginBottom: 20,
+                                    marginRight: index % 2 === 0 ? 20 : 0,
+                                }}
+                            />
+                        )}
+                        numColumns={2}
+                        showsVerticalScrollIndicator={false}
+                    />
                 ) : products.length ? (
                     <FlatList
                         data={products}

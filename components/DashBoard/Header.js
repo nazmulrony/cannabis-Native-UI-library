@@ -7,16 +7,28 @@ import {
     StatusBar,
     Dimensions,
 } from "react-native";
-import React from "react";
+import React, { useRef, useState } from "react";
 import Colors from "../../constants/Colors";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { useSelector } from "react-redux";
 import { authSelector } from "../../redux/slices/auth.slice";
+import {
+    Button,
+    Divider,
+    IconButton,
+    Menu,
+    TouchableRipple,
+} from "react-native-paper";
+import { GlobalStyles } from "../../constants/style";
 
 const Header = () => {
     const navigation = useNavigation();
     const { user } = useSelector(authSelector) || {};
+    const [chatVisible, setChatVisible] = useState(false);
+    const [notificationVisible, setNotificationVisible] = useState(false);
+    const notificationRef = useRef();
+
     return (
         <View style={styles.container}>
             <View style={styles.profileContainer}>
@@ -43,18 +55,77 @@ const Header = () => {
                 </View>
             </View>
             <View style={styles.iconsContainer}>
-                <Ionicons
-                    name="chatbubble-ellipses-outline"
-                    size={24}
-                    color={Colors.dark400}
-                    style={{ marginRight: 24 }}
-                />
-                <Ionicons
-                    name="ios-notifications-outline"
-                    size={24}
-                    color={Colors.dark400}
-                />
+                <Menu
+                    visible={chatVisible}
+                    onDismiss={() => setChatVisible(false)}
+                    anchorPosition="bottom"
+                    contentStyle={{ backgroundColor: "white" }}
+                    anchor={
+                        <IconButton
+                            icon={() => (
+                                <Ionicons
+                                    name="chatbubble-ellipses-outline"
+                                    size={24}
+                                    color={Colors.dark400}
+                                />
+                            )}
+                            onPress={() => setChatVisible(!chatVisible)}
+                        />
+                    }
+                >
+                    <Text style={{ textAlign: "center" }}>Chat list</Text>
+                    <Divider />
+                    <Menu.Item onPress={() => {}} title="Chat 1" />
+                    <Menu.Item onPress={() => {}} title="Chat 2" />
+                    <Menu.Item onPress={() => {}} title="Chat 3" />
+                </Menu>
+                {/* <IconButton
+                    icon={() => (
+                        <Ionicons
+                            name="chatbubble-ellipses-outline"
+                            size={24}
+                            color={Colors.dark400}
+                        />
+                    )}
+                    onPress={() => setChatVisible(true)}
+                /> */}
+
+                <Menu
+                    visible={notificationVisible}
+                    onDismiss={() => setNotificationVisible(false)}
+                    anchorPosition="bottom"
+                    contentStyle={{ backgroundColor: "white" }}
+                    anchor={
+                        <IconButton
+                            icon={() => (
+                                <Ionicons
+                                    name="ios-notifications-outline"
+                                    size={24}
+                                    color={Colors.dark400}
+                                />
+                            )}
+                            // ref={notificationRef}
+                            onPress={() => setNotificationVisible(true)}
+                        />
+                    }
+                >
+                    <Text style={{ textAlign: "center" }}>Notifications</Text>
+                    <Divider />
+                    <Menu.Item
+                        onPress={() => console.log("Option 1")}
+                        title="Notification 1"
+                    />
+                    <Menu.Item
+                        onPress={() => console.log("Option 2")}
+                        title="Notification 2"
+                    />
+                    <Menu.Item
+                        onPress={() => console.log("Option 3")}
+                        title="Notification 3"
+                    />
+                </Menu>
             </View>
+
             <StatusBar />
         </View>
     );

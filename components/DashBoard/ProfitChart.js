@@ -10,6 +10,7 @@ import {
 import { Octicons } from "@expo/vector-icons";
 import { Ionicons } from "@expo/vector-icons";
 import { FontAwesome } from "@expo/vector-icons";
+import { Button } from "react-native-paper";
 
 const ProfitChart = () => {
     const demoData = [
@@ -157,9 +158,13 @@ const ProfitChart = () => {
                         </Text>
                     </View>
                 </View>
-                <Pressable style={styles.btn}>
-                    <Text style={styles.btnText}>View reports</Text>
-                </Pressable>
+                <Button
+                    mode="contained"
+                    style={{ borderRadius: 8 }}
+                    onPress={() => {}}
+                >
+                    View reports
+                </Button>
             </View>
         </View>
     );

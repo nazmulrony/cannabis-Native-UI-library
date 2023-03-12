@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, Pressable } from "react-native";
 import React, { useState } from "react";
 import Colors from "../../constants/Colors";
+import { Button } from "react-native-paper";
 
 const AuctionStatus = () => {
     const demo = [
@@ -121,11 +122,14 @@ const AuctionStatus = () => {
                     </View>
                 ))}
             </View>
-            <Pressable onPress={handleShowMore} style={styles.btn}>
-                <Text style={styles.btnText}>
-                    {toggle ? "View less" : "View more"}
-                </Text>
-            </Pressable>
+
+            <Button
+                mode="contained"
+                style={{ borderRadius: 8 }}
+                onPress={handleShowMore}
+            >
+                {toggle ? "View less" : "View more"}
+            </Button>
         </View>
     );
 };

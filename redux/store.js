@@ -26,7 +26,7 @@ export const store = configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
         getDefaultMiddleware({
-            immutableCheck: { warnAfter: 128 },
+            immutableCheck: { warnAfter: 256 },
             serializableCheck: false,
         }).concat(authApi.middleware, cannabisProtectedApi.middleware),
 });

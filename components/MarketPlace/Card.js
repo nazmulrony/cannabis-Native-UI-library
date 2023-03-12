@@ -13,7 +13,7 @@ import Colors from "../../constants/Colors";
 import { FontAwesome } from "@expo/vector-icons";
 
 const Card = ({ product, style }) => {
-    console.log(product);
+    // console.log(product);
     return (
         <View style={[styles.card, style]}>
             <View>

@@ -1,6 +1,7 @@
 import { View, Text, StyleSheet, ScrollView, Pressable } from "react-native";
 import React, { useState } from "react";
 import Colors from "../../constants/Colors";
+import { Button } from "react-native-paper";
 
 const TransactionHistory = () => {
     const demo = [
@@ -140,11 +141,14 @@ const TransactionHistory = () => {
                     ))}
                 </View>
             </ScrollView>
-            <Pressable onPress={handleShowMore} style={styles.btn}>
-                <Text style={styles.btnText}>
-                    {toggle ? "View less" : "View more"}
-                </Text>
-            </Pressable>
+            <Button
+                mode="contained"
+                style={{ borderRadius: 8 }}
+                labelStyle={{ fontSize: 18 }}
+                onPress={handleShowMore}
+            >
+                {toggle ? "View less" : "View more"}
+            </Button>
         </View>
     );
 };

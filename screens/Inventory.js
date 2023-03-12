@@ -16,10 +16,13 @@ import {
 const Inventory = () => {
     const { user } = useSelector(authSelector);
     const dispatch = useDispatch();
-    const { data } = useGetProductsQuery(user?.company?.license_type, {
-        skip: !user?.company?.license_type,
-    });
-    console.log(user?.company?.license_type);
+    const { data, isLoading } = useGetProductsQuery(
+        user?.company?.license_type,
+        {
+            skip: !user?.company?.license_type,
+        }
+    );
+    // console.log(user?.company?.license_type);
     useEffect(() => {
         // console.log(data);
         if (data?.status) {
